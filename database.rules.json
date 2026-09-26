@@ -1,0 +1,24 @@
+{
+  "rules": {
+    "leaderboard": {
+      // Anyone can read the leaderboard.
+      ".read": true,
+      
+      // Store individual entries under 'leaderboard'.
+      "$entry_id": {
+        // Players can create entries; only administrators can edit or delete them.
+        ".write": "(!data.exists() && newData.exists()) || (auth != null && auth.token.admin === true)",
+        
+        // Validate submitted scores, including requests sent directly to the API.
+        ".validate": "newData.hasChildren(['name', 'score', 'consentGiven']) && 
+                      newData.child('score').isNumber() && 
+                      newData.child('score').val() >= 0 && 
+                      newData.child('score').val() <= 250 && 
+                      newData.child('name').isString() && 
+                      newData.child('name').val().length > 0 && 
+                      newData.child('name').val().length <= 30 &&
+                      newData.child('consentGiven').isBoolean()"
+      }
+    }
+  }
+}

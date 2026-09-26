@@ -1,0 +1,51 @@
+# Dependencies, builds, and caches
+node_modules/
+dist/
+dist-ssr/
+coverage/
+.vite/
+.vitest/
+.cache/
+.npm-cache/
+.eslintcache
+*.tsbuildinfo
+
+# Local configuration and credentials; commit only the empty template
+.env
+.env.*
+!.env.example
+*.local
+*.pem
+*.key
+*service-account*.json
+*serviceAccount*.json
+*firebase-adminsdk*.json
+
+# Logs and emulator output
+logs/
+*.log
+.firebase/
+
+# Temporary files, downloads, and backups
+tmp/
+temp/
+*.tmp
+*.bak
+*.orig
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# Editors and operating systems
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
