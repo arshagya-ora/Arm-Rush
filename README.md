@@ -1,6 +1,23 @@
+<div align="center">
+
 # Arm Rush
 
-**Your camera. Your movement. Fifteen seconds.**
+### Your camera. Your movement. Fifteen seconds.
+
+A motion-controlled arcade challenge, right in your browser.
+
+![React](https://img.shields.io/badge/React-19-149eca?style=flat-square)
+![Vite](https://img.shields.io/badge/Vite-8-646cff?style=flat-square)
+![MediaPipe](https://img.shields.io/badge/MediaPipe-on--device_tracking-00a67e?style=flat-square)
+![Firebase](https://img.shields.io/badge/Firebase-optional-ffca28?style=flat-square)
+
+[The experience](#the-experience) · [Play locally](#start-playing-locally) · [Architecture](#runtime-architecture) · [Development](#working-on-the-project)
+
+</div>
+
+![Arm Rush start screen with the game introduction and daily leaderboard](docs/images/start-screen.png)
+
+<p align="center"><em>Five practice swings. A three-second countdown. One fifteen-second sprint.</em></p>
 
 Arm Rush is a browser-based speed game that turns alternating arm movements into an arcade challenge. A webcam tracks your wrists while you race against the clock, build your score, and work through six ranks.
 
@@ -8,11 +25,28 @@ Play without an account, download a personalised result certificate, or connect 
 
 ## The experience
 
-- **Movement-based controls** — switch between left-arm-high and right-arm-high poses to score.
-- **Short, repeatable rounds** — five practice swings, a three-second countdown, and fifteen seconds of play.
-- **Live feedback** — a visible timer, rank progression, combo indicators, and reactive visual effects.
-- **Downloadable results** — export a certificate as a PNG image or PDF, including a locally captured snapshot.
-- **Optional shared scores** — display the day's top five players when a leaderboard is configured.
+| Move | Chase | Keep |
+| --- | --- | --- |
+| Alternate left-arm-high and right-arm-high poses. MediaPipe tracks your wrists locally. | Race the timer, build combos, and climb through six ranks with reactive visual effects. | Download a personalised PNG or PDF certificate, or submit to an optional daily leaderboard. |
+
+<details>
+<summary><strong>See the certificate preview</strong></summary>
+
+![Arm Rush certificate screen showing a demo player, sample score and download controls](docs/images/certificate-preview.png)
+
+The real certificate frontend, opened with its supported deep link using **Demo Player** and an illustrative score of **87**. This is a preview, not a recorded round. Screenshots use a synthetic browser camera; no personal camera image is published.
+
+</details>
+
+## Runtime architecture
+
+The primary path stays in the player's browser: camera frames become pose landmarks, wrist transitions become points, and the final score becomes a downloadable result. External asset loading and optional cloud scoring are separate branches.
+
+![Arm Rush runtime architecture: local browser gameplay, external model assets and optional Firebase, with supporting detail cards](docs/images/runtime-architecture.png)
+
+[Interactive diagram](docs/architecture/runtime-overview.html) · [Editable Archify source](docs/architecture/runtime-overview.architecture.json) · [Code evidence and validation](docs/architecture/README.md)
+
+Download the HTML file and open it in a browser for zoom, theme switching and export. GitHub displays the image above directly.
 
 ## Start playing locally
 

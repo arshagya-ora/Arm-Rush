@@ -49,3 +49,6 @@ Desktop.ini
 *.njsproj
 *.sln
 *.sw?
+
+# Archify browser-validation sidecars (curated previews are in docs/images)
+docs/architecture/*.visual-check.*

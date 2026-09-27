@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Arm Rush · Runtime architecture",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1360,
+      660
+    ]
+  },
+  "components": [
+    {
+      "id": "player-ui",
+      "type": "frontend",
+      "label": "Player interface",
+      "sublabel": "React · camera permission",
+      "pos": [
+        50,
+        290
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "local-pose",
+      "type": "frontend",
+      "label": "Pose tracking",
+      "sublabel": "MediaPipe · browser WASM",
+      "pos": [
+        380,
+        290
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "round-engine",
+      "type": "frontend",
+      "label": "Round engine",
+      "sublabel": "Wrist transitions · 15s timer",
+      "pos": [
+        710,
+        290
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "result-export",
+      "type": "frontend",
+      "label": "Result & certificate",
+      "sublabel": "Canvas · PNG / jsPDF",
+      "pos": [
+        1040,
+        290
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "asset-hosts",
+      "type": "external",
+      "label": "Tracking assets",
+      "sublabel": "Google models · jsDelivr WASM",
+      "pos": [
+        380,
+        70
+      ],
+      "size": [
+        220,
+        76
+      ]
+    },
+    {
+      "id": "score-service",
+      "type": "cloud",
+      "label": "Firebase",
+      "sublabel": "Realtime Database · Auth",
+      "pos": [
+        710,
+        510
+      ],
+      "size": [
+        220,
+        76
+      ]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "PLAYER BROWSER · local camera frames, inference and score state",
+      "wraps": [
+        "player-ui",
+        "local-pose",
+        "round-engine",
+        "result-export"
+      ],
+      "pad": 26
+    },
+    {
+      "kind": "security-group",
+      "label": "EXTERNAL ASSET HOSTS",
+      "wraps": [
+        "asset-hosts"
+      ],
+      "pad": 22
+    },
+    {
+      "kind": "security-group",
+      "label": "OPTIONAL CLOUD SERVICE",
+      "wraps": [
+        "score-service"
+      ],
+      "pad": 22
+    }
+  ],
+  "connections": [
+    {
+      "id": "camera-input",
+      "from": "player-ui",
+      "to": "local-pose",
+      "label": "Frames",
+      "variant": "emphasis"
+    },
+    {
+      "id": "landmark-input",
+      "from": "local-pose",
+      "to": "round-engine",
+      "label": "Landmarks",
+      "variant": "emphasis"
+    },
+    {
+      "id": "round-result",
+      "from": "round-engine",
+      "to": "result-export",
+      "label": "Final score",
+      "variant": "emphasis"
+    },
+    {
+      "id": "load-runtime",
+      "labelAt": [490, 160],
+      "from": "asset-hosts",
+      "to": "local-pose",
+      "label": "HTTPS assets",
+      "variant": "default",
+      "fromSide": "bottom",
+      "toSide": "top"
+    },
+    {
+      "id": "publish-score",
+      "labelAt": [820, 380],
+      "from": "round-engine",
+      "to": "score-service",
+      "label": "Submit / subscribe",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "01 · Play locally",
+      "items": [
+        "Five practice swings → countdown → 15-second round. Alternating wrist heights drive score and rank.",
+        "Frames and certificate snapshots stay in browser memory; PNG and PDF exports download locally."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "02 · Cross a boundary",
+      "items": [
+        "Google and jsDelivr supply model/WASM assets; Google Fonts supplies typography. Inference runs on-device.",
+        "Optional Firebase receives nickname, score, timestamp and consent choice. It never receives the camera snapshot."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "03 · Share a score",
+      "items": [
+        "Realtime Database supplies the public daily top five. Without Firebase, play and certificate export still work.",
+        "Rules validate score writes. Admin edits require Firebase Auth plus an admin claim; scores remain client-calculated."
+      ]
+    }
+  ]
+}
